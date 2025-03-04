@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Droit Media - Top Stories</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Slide Menu Styles */
+    .side-menu {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #333;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 1000;
+    }
+
+    .side-menu a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: white;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .side-menu a:hover {
+      color: #f1f1f1;
+    }
+
+    .side-menu .close-btn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+
+    #menu-btn {
+      font-size: 30px;
+      cursor: pointer;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+ 
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="logo.jpg" alt="Droit Media Logo">
+    </div>
+    <nav>
+      <!-- Menu Button -->
+  <span id="menu-btn">&#9776; Menu</span>
+
+  <!-- Side Menu -->
+  <div id="mySideMenu" class="side-menu">
+    <a href="javascript:void(0)" class="close-btn" id="close-menu">&times;</a>
+    <a href="index.html">Top Stories</a>
+    <a href="newsletter.html">Newsletter</a>
+    <a href="epaper.html">E-paper</a>
+    <a href="droit-tv.html">Droit TV</a>
+  </div>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search news...">
+      <button id="search-btn">Search</button>
+    </div>
+  </header>
+
+  <!-- Hero Section (Breaking News) -->
+  <section class="hero">
+    <div class="slider">
+      <div class="slide">
+        <img src="welcome.jpg" alt="Breaking News">
+        <div class="slide-text">Enjoy our exclusive stories from around the world</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content (Top Stories) -->
+  <main>
+    <section class="news-grid">
+      <h2 class="section-title">Top Stories</h2>
+      <div class="grid-container" id="news-container">
+        <!-- Top stories will be displayed here -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="partnership">
+      <p>In partnership with</p>
+      <a href="https://deo-digital-solutions.vercel.app/" target="_blank">
+        <img src="deo.png" alt="DEO">
+      </a>
+    </div>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Top Stories</a></li>
+          <li><a href="newsletter.html">Newsletter</a></li>
+          <li><a href="epaper.html">E-paper</a></li>
+          <li><a href="magazine.html">Droit Magazine</a></li>
+          <li><a href="droit-tv.html">Droit TV</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <!-- Social Media Links -->
+          <a href="https://www.facebook.com" target="_blank"><img src="facebook.jpeg" alt="Facebook"></a>
+          <a href="https://www.instagram.com" target="_blank"><img src="instagram.jpeg" alt="Instagram"></a>
+          <a href="https://wa.me" target="_blank"><img src="whatsapp.jpeg" alt="WhatsApp"></a>
+          <a href="https://twitter.com" target="_blank"><img src="x.png" alt="X (Twitter)"></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <input type="email" placeholder="Enter your email">
+        <button>Subscribe</button>
+      </div>
+    </div>
+    <p class="copyright">© 2025 Droit Media. All rights reserved.</p>
+  </footer>
+
+  <!-- External Scripts -->
+  <script src="script.js"></script>
+
+  <!-- JavaScript to open/close the side menu -->
+  <script>
+    // Get the menu button and side menu
+    const menuBtn = document.getElementById('menu-btn');
+    const sideMenu = document.getElementById('mySideMenu');
+    const closeMenu = document.getElementById('close-menu');
+
+    // Open the side menu
+    menuBtn.onclick = function() {
+      sideMenu.style.width = '250px';
+    }
+
+    // Close the side menu
+    closeMenu.onclick = function() {
+      sideMenu.style.width = '0';
+    }
+  </script>
+
+  <!-- JavaScript to fetch Blogger posts -->
+  <script>
+    function fetchBloggerPosts(limit = 5) {
+      const feedUrl = 'https://twicebiz.blogspot.com/feeds/posts/default';  // Correct feed URL
+      fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`)
+        .then(response => response.json())
+        .then(data => {
+          const posts = data.items.slice(0, limit);  // Limit the number of posts displayed
+          const newsContainer = document.getElementById('news-container');
+          posts.forEach(post => {
+            const newsCard = document.createElement('article');
+            newsCard.classList.add('news-card');
+            newsCard.innerHTML = `
+              <img src="${post.thumbnail}" alt="${post.title}">
+              <h3>${post.title}</h3>
+              <p>${post.description}</p>
+              <a href="${post.link}" class="read-more" target="_blank">Read More</a>
+            `;
+            newsContainer.appendChild(newsCard);
+          });
+        })
+        .catch(error => console.error('Error fetching Blogger posts:', error));
+    }
+    fetchBloggerPosts(5);  // Only show the latest 5 stories
+  </script>
+</body>
+</html>

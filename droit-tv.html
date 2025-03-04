@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Droit Media - Top Stories</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="logo.jpeg" alt="Droit Media Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active">Top Stories</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="epaper.html">E-paper</a></li>
+        <li><a href="droit-tv.html">Droit TV</a></li>
+      </ul>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search news...">
+      <button id="search-btn">Search</button>
+    </div>
+  </header>
+
+  <!-- Hero Section (Breaking News) -->
+  <section class="hero">
+    <div class="slider">
+      <div class="slide">
+        <img src="welcome.jpg" alt="Breaking News">
+        <div class="slide-text">Enjoy our exclusive stories from around the world</div>
+      </div>
+    </div>
+  </section>
+  <main>
+    <!-- Live TV Section -->
+  <section class="live-tv">
+    <h1>Watch Droit TV Live</h1>
+    <div class="video-container">
+      <!-- YouTube Live Stream -->
+      <iframe 
+        id="live-stream"
+        src="https://www.youtube.com/embed/YOUR_YOUTUBE_LIVE_ID_HERE" 
+        title="Droit TV Live Stream" 
+        frameborder="0" 
+        allowfullscreen
+        onerror="showFallbackImage()">
+      </iframe>
+    </div>
+
+    <!-- Fallback Image -->
+    <div id="fallback-image" class="fallback">
+      <img src="soon.jpeg" alt="Droit TV is not live">
+    </div>
+  </section>
+
+  <script>
+    // Function to show fallback image when stream is not available
+    function showFallbackImage() {
+        document.getElementById('fallback-image').style.display = 'block';
+        document.getElementById('live-stream').style.display = 'none';
+    }
+
+    // Optionally, hide the fallback image if the stream becomes live again
+    function checkLiveStatus() {
+        const iframe = document.getElementById('live-stream');
+        const iframeSrc = iframe.src;
+
+        fetch(`https://www.youtube.com/oembed?url=${iframeSrc}&format=json`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.status === "active") {
+                    document.getElementById('fallback-image').style.display = 'none';
+                    iframe.style.display = 'block';
+                }
+            }).catch(() => {
+                showFallbackImage();
+            });
+    }
+
+    // Check the live stream status periodically
+    setInterval(checkLiveStatus, 5000);
+  </script>
+
+</main>
+  <!-- Footer -->
+  <footer>
+    ><div class="partnership">
+      <p>In partnership with</p>
+      <a href="https://deo-digital-solutions.vercel.app/" target="_blank">
+        <img src="deo.png" alt="DEO">
+      </a>
+    </div>
+    <div class="footer-content">
+      <div class="footer-section">
+        <ul>
+        
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/droit_media/" target="_blank">
+            <img src="instagram.png" alt="Instagram">
+          </a>
+          <a href="https://www.tiktok.com/@droitmedia" target="_blank">
+            <img src="tiktok.png" alt="WhatsApp">
+          </a>
+          <a href="https://x.com/droit_media" target="_blank">
+            <img src="x.png" alt="X (Twitter)">
+          </a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <input type="email" placeholder="Enter your email">
+        <button>Subscribe</button>
+      </div>
+    </div>
+    <p class="copyright">© 2025 Droit Media. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

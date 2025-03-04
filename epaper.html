@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Droit Media - E-paper</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.jpeg" alt="Droit Media Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Top Stories</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="epaper.html" class="active">E-paper</a></li>
+        <li><a href="droit-tv.html">Droit TV</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="hero">
+    <div class="slider">
+      <div class="slide">
+        <img src="weekly.jpeg" alt="Breaking News">
+      </div>
+    </div>
+  </section>
+  <!-- E-Paper Section -->
+  <section class="epaper">
+    <h1>Latest E-Paper</h1>
+    <div class="pdf-container">
+      <canvas id="pdf-viewer"></canvas>
+    </div>
+    <div class="download-section">
+      <a href="droit E- paper.pdf" download class="download-btn">Download E-Paper</a>
+    </div>
+  </section>
+  <!-- Editors Section -->
+  <h1>OUR EDITORS</h1>
+  <section id="editors" class="editor-grid">
+    <div class="editor-card">
+      <img src="chief.png" alt="Editor 1">
+      <div>
+        <h3>AYEBARE DEOGRATIOUS</h3>
+        <p>As the Head of IT, Graphics Design, and Social Media at Droit Media, 
+          Deogratious ayebare brings his extensive experience and visionary approach to the digital landscape. With a background in enterprise computing and a deep understanding of design and digital strategies, Deo is committed to ensuring Droit Media stays at the forefront of the industry. His multifaceted role involves overseeing IT infrastructure, creating visually compelling graphics, and managing the company’s social media presence to boost brand visibility and engagement. Deo’s passion for innovation, coupled with his dedication to client satisfaction, 
+          helps Droit Media provide cutting-edge solutions that drive growth and success..</p>
+      </div>
+    </div>
+    <div class="editor-card">
+      <img src="philip.jpeg" alt="Editor 2">
+      <div>
+        <h3>Mukama Phillip Kahigiriza is </h3>
+        <p>Mukama Phillip Kahigiriza is a CEO Droit Media- a multi digital
+           media private enterprise comprising of daily news hub,E-Droit Weekly newspaper,Droit Quarterly magazine and Droit Digital Tv,an activist,writer,author,writing 
+          and public speaking coach and a  journalist . </p>
+      </div>
+    </div>
+
+    <div class="editor-card">
+      <img src="editor3.jpg" alt="Editor 3">
+      <div>
+        <h3></h3>
+        <p></p>
+      </div>
+    </div>
+
+    <div class="editor-card">
+      <img src="editor4.jpg" alt="Editor 4">
+      <div>
+        <h3></h3>
+        <p></p>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+  // PDF.js Setup
+const pdfUrl = "sample.pdf"; // Change this to your latest E-paper PDF
+
+const pdfViewer = document.getElementById("pdf-viewer");
+
+// Load PDF using PDF.js
+ // Initialize PDF.js
+ const url = 'droit E- paper.pdf';  // Path to your PDF file
+
+// Load the PDF file
+pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
+  // Get the first page
+  pdfDoc_.getPage(1).then(page => {
+    const canvas = document.getElementById('pdf-viewer');
+    const context = canvas.getContext('2d');
+
+    // Set the scale for the page rendering (1 is default, larger numbers will zoom in)
+    const scale = 1.5;
+    const viewport = page.getViewport({ scale: scale });
+
+    // Set canvas size to match the viewport
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    // Render the page onto the canvas
+    page.render({
+      canvasContext: context,
+      viewport: viewport
+    });
+  });
+}).catch(error => {
+  console.error('Error loading PDF: ', error);
+});
+</script>
+</script>
+<!-- Footer -->
+<footer>
+  ><div class="partnership">
+    <p>In partnership with</p>
+    <a href="https://deo-digital-solutions.vercel.app/" target="_blank">
+      <img src="deo.png" alt="DEO">
+    </a>
+  </div>
+  <div class="footer-content">
+    <div class="footer-section">
+      <ul>
+      
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/droit_media/" target="_blank">
+          <img src="instagram.png" alt="Instagram">
+        </a>
+        <a href="https://www.tiktok.com/@droitmedia" target="_blank">
+          <img src="tiktok.png" alt="WhatsApp">
+        </a>
+        <a href="https://x.com/droit_media" target="_blank">
+          <img src="x.png" alt="X (Twitter)">
+        </a>
+      </div>
+    </div>
+    <div class="footer-section">
+      <h4>Newsletter</h4>
+      <input type="email" placeholder="Enter your email">
+      <button>Subscribe</button>
+    </div>
+  </div>
+  <p class="copyright">© 2025 Droit Media. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

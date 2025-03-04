@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Droit Media - Top Stories</title>
+  <link rel="stylesheet" href="styles.css">
+<header>
+  <div class="logo">
+    <img src="logo.jpeg" alt="Droit Media Logo">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html" class="active">Top Stories</a></li>
+      <li><a href="newsletter.html">Newsletter</a></li>
+      <li><a href="epaper.html">E-paper</a></li>
+      <li><a href="droit-tv.html">Droit TV</a></li>
+    </ul>
+  </nav>
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Search news...">
+    <button id="search-btn">Search</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="slider">
+    <div class="slide">
+      <img src="welcome (1).jpg" alt="Breaking News">
+      <div class="slide-text">Enjoy our exclusive stories from around the world</div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <!-- Top Stories Section -->
+  <section class="top-stories">
+    <h1>Top Stories</h1>
+    <div class="stories-grid" id="news-container">
+      <!-- Stories will be loaded here -->
+    </div>
+  </section>
+  <style>
+    /* Top Stories Section */
+.top-stories {
+  padding: 2rem;
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* News Card */
+.news-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: left;
+}
+
+.news-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.news-card h3 {
+  padding: 1rem;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.news-card p {
+  padding: 0 1rem 1rem;
+  color: #666;
+}
+
+.read-more {
+  display: block;
+  padding: 0.5rem;
+  background: #FACC15;
+  color: #1E3A8A;
+  text-decoration: none;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Footer */
+footer {
+  background: #1E3A8A;
+  padding: 10px;
+  margin-top: 20px;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .stories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .stories-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+  </style>
+</main>
+
+<footer>
+  ><div class="partnership">
+    <p>In partnership with</p>
+    <a href="https://deo-digital-solutions.vercel.app/" target="_blank">
+      <img src="deo.png" alt="DEO">
+    </a>
+  </div>
+  <div class="footer-content">
+    <div class="footer-section">
+      <ul>
+      
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/droit_media/" target="_blank">
+          <img src="instagram.png" alt="Instagram">
+        </a>
+        <a href="https://www.tiktok.com/@droitmedia" target="_blank">
+          <img src="tiktok.png" alt="WhatsApp">
+        </a>
+        <a href="https://x.com/droit_media" target="_blank">
+          <img src="x.png" alt="X (Twitter)">
+        </a>
+      </div>
+    </div>
+    <div class="footer-section">
+      <h4>Newsletter</h4>
+      <input type="email" placeholder="Enter your email">
+      <button>Subscribe</button>
+    </div>
+  </div>
+  <p class="copyright">© 2025 Droit Media. All rights reserved.</p>
+</footer>
+
+<script>
+// Fetch and display the top three Blogger posts
+function fetchBloggerPosts(limit = 3) {
+  const feedUrl = 'https://droitmedia7.blogspot.com/feeds/posts/default';
+
+  // Fetching the RSS feed data from the API
+  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Fetched Data:', data); // Log the full data for debugging
+
+      // Check if items exist
+      if (!data.items || data.items.length === 0) {
+        console.error('No posts found in the RSS feed');
+        return;
+      }
+
+      // Get the top three posts
+      const posts = data.items.slice(0, limit);
+      const newsContainer = document.getElementById('news-container');
+
+      // Clear existing content
+      newsContainer.innerHTML = '';
+
+      posts.forEach(post => {
+        const newsCard = document.createElement('article');
+        newsCard.classList.add('news-card');
+
+        // Check for post image and description, set defaults if missing
+        const postImage = post.thumbnail || 'https://via.placeholder.com/600x400?text=No+Image';
+        const postDescription = post.description || 'No description available.';
+
+        // Fill the news card with the post data
+        newsCard.innerHTML = `
+          <img src="${postImage}" alt="${post.title}">
+          <h3>${post.title}</h3>
+          <p>${postDescription}</p>
+          <a href="${post.link}" class="read-more" target="_blank">Read More</a>
+        `;
+
+        newsContainer.appendChild(newsCard);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching Blogger posts:', error);
+      alert('An error occurred while fetching posts. Please try again later.');
+    });
+}
+
+// Load the top three stories when the page is loaded
+window.onload = function() {
+  fetchBloggerPosts();
+};
+
+
+</script>
+<!-- Back to Top Button -->
+<button id="backToTop" class="back-to-top" title="Go to top">↑</button>
+
+</body>
+</html>
