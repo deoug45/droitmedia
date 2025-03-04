@@ -341,15 +341,14 @@ footer .newsletter button {
   align-items: center;
   gap: 15px;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  border: 1px solid blue;
 }
 
 .editor-card img {
-  width: 60px;
-  height: 60px;
+  height: 50px;
   border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 
 .editor-grid {
