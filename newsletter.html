@@ -20,31 +20,28 @@
     </div>
     <nav>
       <ul>
-        <nav>
-          <ul>
-            <li><a href="index.html">Top Stories</a></li>
-            <li>
-              <a href="newsletter.html">Newsletter</a>
-              <div class="dropdown" id="categoryDropdown">
-                <a href="#breaking-news">Breaking News</a>
-                <a href="#politics">Politics</a>
-                <a href="#sports">Sports</a>
-                <a href="#international">International</a>
-                <a href="#religion">Religion</a>
-              </div>
-            </li>
-            <li><a href="epaper.html">E-paper</a></li>
-            <li><a href="droit-tv.html">Droit TV</a></li>
-          </ul>
-          <script>
-            // Toggle dropdown visibility on small screens
-function toggleDropdown() {
-  const dropdown = document.getElementById('categoryDropdown');
-  dropdown.classList.toggle('open');
-}
-
-          </script>
-
+        <li><a href="index.html">Top Stories</a></li>
+        <li>
+          <a href="newsletter.html">Newsletter</a>
+          <div class="dropdown" id="categoryDropdown">
+            <a href="#breaking-news">Breaking News</a>
+            <a href="#politics">Politics</a>
+            <a href="#sports">Sports</a>
+            <a href="#international">International</a>
+            <a href="#religion">Religion</a>
+          </div>
+        </li>
+        <li><a href="epaper.html">E-paper</a></li>
+        <li><a href="droit-tv.html">Droit TV</a></li>
+      </ul>
+    </nav>
+    <script>
+      // Toggle dropdown visibility on small screens
+      function toggleDropdown() {
+        const dropdown = document.getElementById('categoryDropdown');
+        dropdown.classList.toggle('open');
+      }
+    </script>
     <!-- Search Bar -->
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search news...">
@@ -52,36 +49,54 @@ function toggleDropdown() {
     </div>
   </header>
 
- 
-
   <!-- News Categories -->
-  <section id="breaking-news" class="news-grid">
-    <h2 class="section-title">News in details</h2>
-    <div class="grid-container"></div>
-  </section>
+  <main>
+    <section class="category-selection">
+      <h2>Select News Category</h2>
+      <select id="news-category" onchange="filterNewsByCategory()">
+        <option value="all">All</option>
+        <option value="breaking-news">Breaking News</option>
+        <option value="politics">Politics</option>
+        <option value="sports">Sports</option>
+        <option value="international">International</option>
+        <option value="religion">Religion</option>
+        <option value="entertainment">Entertainment</option>
+      </select>
+    </section>
 
-  <section id="politics" class="news-grid">
-    <h2 class="section-title">Politics</h2>
-    <div class="grid-container"></div>
-  </section>
+    <section id="breaking-news" class="news-grid">
+      <h2 class="section-title">News in details</h2>
+      <div class="grid-container"></div>
+    </section>
 
-  <section id="sports" class="news-grid">
-    <h2 class="section-title">Sports</h2>
-    <div class="grid-container"></div>
-  </section>
+    <section id="politics" class="news-grid">
+      <h2 class="section-title">Politics</h2>
+      <div class="grid-container"></div>
+    </section>
 
-  <section id="international" class="news-grid">
-    <h2 class="section-title">International</h2>
-    <div class="grid-container"></div>
-  </section>
+    <section id="sports" class="news-grid">
+      <h2 class="section-title">Sports</h2>
+      <div class="grid-container"></div>
+    </section>
 
-  <section id="religion" class="news-grid">
-    <h2 class="section-title">Religion</h2>
-    <div class="grid-container"></div>
-  </section>
+    <section id="international" class="news-grid">
+      <h2 class="section-title">International</h2>
+      <div class="grid-container"></div>
+    </section>
+
+    <section id="religion" class="news-grid">
+      <h2 class="section-title">Religion</h2>
+      <div class="grid-container"></div>
+    </section>
+
+    <section id="entertainment" class="news-grid">
+      <h2 class="section-title">Entertainment</h2>
+      <div class="grid-container"></div>
+    </section>
+  </main>
 
   <footer>
-    ><div class="partnership">
+    <div class="partnership">
       <p>In partnership with</p>
       <a href="https://deo-digital-solutions.vercel.app/" target="_blank">
         <img src="deo.png" alt="DEO">
@@ -90,7 +105,7 @@ function toggleDropdown() {
     <div class="footer-content">
       <div class="footer-section">
         <ul>
-        
+          <!-- Add footer links here -->
         </ul>
       </div>
       <div class="footer-section">
@@ -128,10 +143,11 @@ function toggleDropdown() {
 
           const categories = {
             'breaking-news': ['breaking', 'urgent'],
-            'politics': ['politics', 'government'],
-            'sports': ['sports', 'game'],
+            'politics': ['politics', 'government', 'election'],
+            'sports': ['sports', 'game', 'match'],
             'international': ['world', 'international'],
-            'religion': ['religion', 'faith']
+            'religion': ['religion', 'faith'],
+            'entertainment': ['entertainment', 'celebrity', 'movie', 'music']
           };
 
           function categorizePost(post) {
@@ -143,17 +159,22 @@ function toggleDropdown() {
             return 'breaking-news';
           }
 
+          const fiveDaysAgo = new Date();
+          fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+
           data.items.slice(0, limit).forEach(post => {
+            const postDate = new Date(post.pubDate);
+            if (postDate < fiveDaysAgo) return;
+
             const category = categorizePost(post);
             const container = document.querySelector(`#${category} .grid-container`);
-
             const postImage = post.thumbnail || 'https://via.placeholder.com/600x400?text=No+Image';
 
             const newsCard = `
               <article class="news-card">
                 <img src="${postImage}" alt="${post.title}">
                 <h3>${post.title}</h3>
-                <p>${post.description || 'No description available.'}</p>
+                <p>${post.description ? post.description.substring(0, 100) + '...' : 'No description available.'}</p>
                 <a href="${post.link}" class="read-more" target="_blank">Read More</a>
               </article>
             `;
@@ -165,31 +186,44 @@ function toggleDropdown() {
     }
 
     window.onload = () => fetchBloggerPosts();
+
+    // Filter news by category
+    function filterNewsByCategory() {
+      const selectedCategory = document.getElementById('news-category').value;
+      const sections = document.querySelectorAll('.news-grid');
+
+      sections.forEach(section => {
+        if (selectedCategory === 'all' || section.id === selectedCategory) {
+          section.style.display = 'block';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+    }
   </script>
   <script>
     // Back to Top Button Logic
-const backToTopBtn = document.getElementById('backToTop');
+    const backToTopBtn = document.getElementById('backToTop');
 
-// Show button when user scrolls down
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) {
-    backToTopBtn.style.display = 'block';
-  } else {
-    backToTopBtn.style.display = 'none';
-  }
-});
+    // Show button when user scrolls down
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
 
-// Scroll to the top when clicked
-backToTopBtn.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-});
-
+    // Scroll to the top when clicked
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
   </script>
-<!-- Back to Top Button -->
-<button id="backToTop" class="back-to-top" title="Go to top">↑</button>
+  <!-- Back to Top Button -->
+  <button id="backToTop" class="back-to-top" title="Go to top">↑</button>
 
 </body>
 </html>

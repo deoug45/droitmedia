@@ -33,14 +33,15 @@
     <h1>Latest E-Paper</h1>
     <div class="pdf-container">
       <canvas id="pdf-viewer"></canvas>
+      <img id="pdf-fallback" src="E PAPER.jpg" alt="PDF Preview" style="display: none;">
     </div>
     <div class="download-section">
-      <a href="droit E- paper.pdf" download class="download-btn">Download E-Paper</a>
+      <a href="droit E- paper.pdf" download class="download-btn">Download Droit E-Paper vol 1</a>
     </div>
   </section>
   <!-- Editors Section -->
-  <h1>OUR EDITORS</h1>
   <section id="editors" class="editor-grid">
+    <h1>OUR EDITORS</h1>
     <div class="editor-card">
       <img src="chief.png" alt="Editor 1">
       <div>
@@ -82,6 +83,7 @@
 const pdfUrl = "sample.pdf"; // Change this to your latest E-paper PDF
 
 const pdfViewer = document.getElementById("pdf-viewer");
+const pdfFallback = document.getElementById("pdf-fallback");
 
 // Load PDF using PDF.js
  // Initialize PDF.js
@@ -110,6 +112,8 @@ pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
   });
 }).catch(error => {
   console.error('Error loading PDF: ', error);
+  pdfViewer.style.display = 'none';
+  pdfFallback.style.display = 'block';
 });
 </script>
 </script>

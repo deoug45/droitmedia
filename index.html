@@ -60,7 +60,7 @@
 
 /* News Card */
 .news-card {
-  background: #fff;
+  background:#1E3A8A;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -87,7 +87,7 @@
 .read-more {
   display: block;
   padding: 0.5rem;
-  background: #FACC15;
+  background:white;
   color: #1E3A8A;
   text-decoration: none;
   text-align: center;
@@ -188,7 +188,7 @@ function fetchBloggerPosts(limit = 3) {
 
         // Check for post image and description, set defaults if missing
         const postImage = post.thumbnail || 'https://via.placeholder.com/600x400?text=No+Image';
-        const postDescription = post.description || 'No description available.';
+        const postDescription = post.description ? post.description.substring(0, 100) + '...' : 'No description available.';
 
         // Fill the news card with the post data
         newsCard.innerHTML = `
@@ -211,8 +211,6 @@ function fetchBloggerPosts(limit = 3) {
 window.onload = function() {
   fetchBloggerPosts();
 };
-
-
 </script>
 <!-- Back to Top Button -->
 <button id="backToTop" class="back-to-top" title="Go to top">↑</button>
