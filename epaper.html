@@ -47,7 +47,7 @@
       <img id="pdf-fallback" src="droit E- paper.png" alt="PDF Preview">
     </div>
     <div class="download-section">
-      <a href="droit E- paper.pdf" download class="download-btn">Download Droit E-Paper vol 2 </a>
+      <a href="droit E- paper.pdf" download class="download-btn" onclick="trackDownload()">Download Droit E-Paper vol 2</a>
     </div>
   </section>
   <!-- Editors Section -->
@@ -123,6 +123,14 @@
   }).catch(error => {
     console.error('Error loading PDF: ', error);
   });
+
+  // Function to track download event
+  function trackDownload() {
+    gtag('event', 'download', {
+      'event_category': 'E-Paper',
+      'event_label': 'Droit E-Paper vol 2'
+    });
+  }
 </script>
 <!-- Footer -->
 <footer>
