@@ -32,11 +32,10 @@
   <section class="epaper">
     <h1>Latest E-Paper</h1>
     <div class="pdf-container">
-      <canvas id="pdf-viewer"></canvas>
-      <img id="pdf-fallback" src="E PAPER.jpg" alt="PDF Preview" style="display: none;">
+      <img id="pdf-fallback" src="droit E- paper.png" alt="PDF Preview">
     </div>
     <div class="download-section">
-      <a href="droit E- paper.pdf" download class="download-btn">Download Droit E-Paper vol 1</a>
+      <a href="droit E- paper.pdf" download class="download-btn">Download Droit E-Paper vol 2 </a>
     </div>
   </section>
   <!-- Editors Section -->
@@ -78,44 +77,40 @@
     </div>
   </section>
 </main>
+<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script>
   // PDF.js Setup
-const pdfUrl = "sample.pdf"; // Change this to your latest E-paper PDF
+  const pdfUrl = "droit E- paper.pdf"; // Ensure this path is correct
 
-const pdfViewer = document.getElementById("pdf-viewer");
-const pdfFallback = document.getElementById("pdf-fallback");
+  const pdfFallback = document.getElementById("pdf-fallback");
 
-// Load PDF using PDF.js
- // Initialize PDF.js
- const url = 'droit E- paper.pdf';  // Path to your PDF file
+  // Load PDF using PDF.js
+  pdfjsLib.getDocument(pdfUrl).promise.then(pdfDoc_ => {
+    // Get the first page
+    pdfDoc_.getPage(1).then(page => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
 
-// Load the PDF file
-pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
-  // Get the first page
-  pdfDoc_.getPage(1).then(page => {
-    const canvas = document.getElementById('pdf-viewer');
-    const context = canvas.getContext('2d');
+      // Set the scale for the page rendering (1 is default, larger numbers will zoom in)
+      const scale = 1.5;
+      const viewport = page.getViewport({ scale: scale });
 
-    // Set the scale for the page rendering (1 is default, larger numbers will zoom in)
-    const scale = 1.5;
-    const viewport = page.getViewport({ scale: scale });
+      // Set canvas size to match the viewport
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
 
-    // Set canvas size to match the viewport
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-
-    // Render the page onto the canvas
-    page.render({
-      canvasContext: context,
-      viewport: viewport
+      // Render the page onto the canvas
+      page.render({
+        canvasContext: context,
+        viewport: viewport
+      }).promise.then(() => {
+        // Replace the fallback image with the rendered canvas
+        pdfFallback.replaceWith(canvas);
+      });
     });
+  }).catch(error => {
+    console.error('Error loading PDF: ', error);
   });
-}).catch(error => {
-  console.error('Error loading PDF: ', error);
-  pdfViewer.style.display = 'none';
-  pdfFallback.style.display = 'block';
-});
-</script>
 </script>
 <!-- Footer -->
 <footer>

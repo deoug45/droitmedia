@@ -159,8 +159,9 @@ nav ul li:hover .dropdown {
 
 .news-card img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure the image covers the entire area */
+  /* Remove unnecessary image-rendering properties */
 }
 
 .news-card h3 {
@@ -280,6 +281,23 @@ footer .newsletter button {
   .video-container img {
     width: 90%; /* Adjusts width for smaller screens */
     height: 200px; /* Reduces height on small devices */
+  }
+
+  .slide img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure the image covers the entire area */
+  }
+
+  .editor-card img {
+    width: 80px; /* Adjust the size as needed for small screens */
+    height: 80px; /* Adjust the size as needed for small screens */
+  }
+
+  .pdf-container img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure the image covers the entire area */
   }
 }
 
